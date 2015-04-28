@@ -1,0 +1,21 @@
+<!--<div ng-include="'components/navbar/navbar.html'"></div>-->
+
+<header class="hero-unit" id="banner">
+  <div class="container">
+    <h3>Please select</h3>
+  </div>
+</header>
+
+<div class="container">
+  <div class="row">
+    <div class="col-lg-12">
+      <h1 class="page-header">Features: {{partyCtrl.parties.length}}</h1>
+      <ul class="nav nav-tabs nav-stacked col-md-4 col-lg-4 col-sm-6"
+       ng-repeat="party in partyCtrl.parties">
+        <li><a ui-sref="funnel({{party.partyid}})" tooltip="{{party.text}}">{{party.description}}</a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+
