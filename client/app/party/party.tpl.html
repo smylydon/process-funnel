@@ -9,12 +9,15 @@
 <div class="container">
   <div class="row">
     <div class="col-lg-12">
-      <h1 class="page-header">Features: {{partyCtrl.parties.length}}</h1>
+      <h2 class="page-header">Features:</h2>
       <ul class="nav nav-tabs nav-stacked col-md-4 col-lg-4 col-sm-6"
        ng-repeat="party in partyCtrl.parties">
-        <li><a ui-sref="funnel({{party.partyid}})" tooltip="{{party.text}}">{{party.description}}</a></li>
+        <li><a><div tooltip="{{party.text}}" class="description"><h4>{{party.text}}</h4>
+        <p>{{party.description}}</p></div></a></li>
       </ul>
+
     </div>
+    <h6><b class="warn">There must be 1 adult for every 5 children under 18 years of age. It is your responsibility to ensure you and your guest abide by the rules. No alcohol will be served at childrens parties. No children will be allowed at Club 18-30 parties, we reserve the right not to admit any guest we believe is under 18 years of age.<span>The rules</span></b></h6>
   </div>
 </div>
 
