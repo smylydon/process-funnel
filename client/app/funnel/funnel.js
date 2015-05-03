@@ -4,7 +4,7 @@ angular.module('processFunnelApp')
   .config(function ($stateProvider) {
     $stateProvider
       .state('funnel', {
-      	url: '/funnel', 
+      	url: '/funnel/:partyid', 
       	views: {
       		'menuView':{
 		        templateUrl: 'components/navbar/navbar.tpl.html',

@@ -7,12 +7,40 @@
 </header>
 
 <div class="container">
+    <h1 class="page-header">Features Funnelled:</h1>
   <div class="row">
     <div class="col-lg-12">
-      <h1 class="page-header">Features Funnelled:</h1>
-      <select>
-        <option ng-repeat="anOption in funnelCtrl.values" value="{{anOption.value}}">{{anOption.text}}</option>
-      </select>
+      <div style="display:inline-block; min-height:290px">
+        <datepicker ng-model="startDate" datepicker-format="funnelCtrl.format" min-date="funnelCtrl.minDate" max-date="funnelCtrl.maxDate" show-weeks="true" class="well well-sm" custom-class="getDayClass(date, mode)"></datepicker>
+      </div>
+
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-lg-12">
+      <label>Select a time slot</label>
+      <ul>
+        <li ng-repeat="availableTime in funnelCtrl.availableTimes" ng-click="funnelCtrl.selectTime(availableTime)">
+          <a href="#">{{availableTime.text}}</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-lg-12">
+  
+
+      <div ng-show="funnelCtrl.allKids" class="">
+        <label>Children</label>
+        <input type="number" step="1" name="numberOfChildGuests" min="{{funnelCtrl.minKids}}"
+        max="{{funnelCtrl.maxKids}}"
+        title="There must be 1 adult to every 5 children" ng-model="funnelCtrl.numberOfChildGuests"
+        step="1">
+      </div>
+      
+      <label>Adults</label>
+      <input type="number" step="1" min="{{funnelCtrl.minAdults}}" max="{{funnelCtrl.maxAdults}}" name="numberOfAdultGuests" ng-model="funnelCtrl.numberOfAdultGuests">
+      </div>
     </div>
   </div>
 </div>

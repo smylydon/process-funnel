@@ -12,7 +12,7 @@
       <h2 class="page-header">Features:</h2>
       <ul class="nav nav-tabs nav-stacked col-md-4 col-lg-4 col-sm-6"
        ng-repeat="party in partyCtrl.parties">
-        <li><a><div tooltip="{{party.text}}" class="description"><h4>{{party.text}}</h4>
+        <li><a ui-sref="funnel({partyid:party.partyid})"><div tooltip="{{party.text}}" class="description"><h4>{{party.text}}</h4>
         <p>{{party.description}}</p></div></a></li>
       </ul>
 
