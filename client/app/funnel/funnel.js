@@ -7,9 +7,9 @@ angular.module('processFunnelApp')
       	url: '/funnel/:partyid', 
       	views: {
       		'menuView':{
-		        templateUrl: 'components/navbar/navbar.tpl.html',
-		        controller: 'NavbarCtrl',
-            controllerAs: 'navbarCtrl'
+		        templateUrl: 'components/funnelbar/funnelbar.tpl.html',
+		        controller: 'FunnelBarCtrl',
+            controllerAs: 'funnelBarCtrl'
       		},
 	      	'mainView': {
 		        templateUrl: 'app/funnel/funnel.tpl.html',
