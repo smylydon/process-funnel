@@ -8,7 +8,7 @@
   /*@ngInject*/
   function navbarCtrl ($scope, $location, $state, $stateParams) {
     var vm = this;
-    console.log('NavbarCtrl 2222');
+
     vm.menu = [{
       'title': 'Home',
       'state': 'home'

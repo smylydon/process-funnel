@@ -6,7 +6,9 @@
 	  .controller('FunnelCtrl', funnelCtrl);
 
 	 /*@ngInject*/
-	function funnelCtrl ($scope, $stateParams, PartyService, ShoppingCart) {
+	function funnelCtrl ($scope,$state, $stateParams, $modal, PartyService, ShoppingCart) {
+      	var kidsParties =['party1','party2','party3'];
+		var adultParties =['party4','party5','party6'];
 		var partyid = $stateParams.partyid;
 		var party = PartyService.getPartyById(partyid);
 		var vm = this;
@@ -37,6 +39,7 @@
 		vm.startDate = null; 
 		vm.format = 'dd-MMMM-yyyy';
 		vm.showTimes = false;
+		vm.showGuests = false;
 		vm.availableTimes = [];
 		vm.allKids = false;
 
@@ -53,13 +56,29 @@
 
 		if (partyid !== 'party4') {
 			vm.allKids = true;
-			vm.minKids = party.min_guests;
-			vm.maxKids = party.max_guests;
+			if (kidsParties.indexOf(partyid) > -1) {
+				vm.minKids = party.min_guests;
+				vm.maxKids = party.max_guests;
+				vm.minAdults = 3;
+			} else {
+				vm.minKids = 0;
+				vm.maxKids = party.max_guests;
+			}
 		}
 
+		vm.selectTime = function () {
+			vm.showGuests = true;
+		};
+		
 		vm.showTimetable = function (day) {
-			vm.showTimes = true;
-			vm.availableTimes = PartyService.getAvailableTimes(day, partyid);
+			if (vm.startDate) {
+				vm.showTimes = true;
+				vm.showGuests = false;
+				vm.availableTimes = PartyService.getAvailableTimes(day, partyid);
+			} else {
+				vm.showTimes = false;
+				vm.showGuests = false;
+			}
 		};
 
 		vm.hideTimetable = function () {
@@ -101,7 +120,6 @@
 				}
 				vm.total = ShoppingCart.total;
 			}
-      		console.log(count, guest);
 		}
 
       	vm.numberOfAdultGuestsChanged = function ($event) {
@@ -111,6 +129,63 @@
       	vm.numberOfChildGuestsChanged = function ($event) {
 			addGuestToCart(vm.numberOfChildGuests, childrenAtParty,"Kid(s)");
       	};
+
+      	function checkLogin () {
+      		if (ShoppingCart.isLoggedIn()) {
+				$state.go('checkout');
+      		} else {
+			    var modalInstance = $modal.open({
+					animation: true,
+					templateUrl: 'app/funnel/loginModal.tpl.html',
+					size:'sm',
+	            	controller: function ($scope) {
+	            		$scope.username = '';
+	            		$scope.password = '';
+
+	            		$scope.login = function () {
+	            			ShoppingCart.login($scope.username, $scope.password);
+	            			if (ShoppingCart.isLoggedIn()) {
+	            				modalInstance.dismiss('cancel');
+	            				$state.go('checkout');
+	            			} else {
+	            				alert('login failed');
+	            			}
+	            		}
+	            		$scope.cancel = function () {
+	            			modalInstance.dismiss('cancel');
+	            		}
+	            	}
+			    });
+      		}
+      	}
+
+      	vm.goToCheckOut = function () {
+      		var adultGuests = vm.numberOfAdultGuests;
+      		var childGuests = vm.numberOfChildGuests;
+
+  			if (kidsParties.indexOf(partyid) > -1) {
+
+  				if (_.isNumber(adultGuests) && adultGuests > 2 ) {
+  					if (_.isNumber(childGuests) && childGuests >= vm.minKids) {
+						checkLogin();
+  					} else {
+  						alert('There must be at least ' + vm.minKids + ' child guests.');
+  					}
+  				} else {
+  					alert('There must be at least 3 adults guests at childrens parties.');
+  				}
+
+  			} else if (adultParties.indexOf(partyid) > -1) {
+
+  				if (_.isNumber(adultGuests) && adultGuests >= vm.minAdults ) {
+					checkLogin();
+  				} else {
+  					alert('There at least ' + vm.minAdults + ' adult guests.');
+  				}
+  			} else {
+  				alert('There was an internal error');
+  			}
+      	}
 	};
 
 

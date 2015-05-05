@@ -6,14 +6,8 @@
 	  .controller('HomeCtrl', homeCtrl);
 
 	 /*@ngInject*/
-	function homeCtrl ($scope, $http) {
+	function homeCtrl ($scope) {
 		var vm = this;
-
-	    vm.awesomeThings = [];
-
-	    $http.get('/api/things').success(function (awesomeThings) {
-	      vm.awesomeThings = awesomeThings;
-	    });
 	};
 
 })(angular);

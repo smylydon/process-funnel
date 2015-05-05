@@ -1,5 +1,5 @@
 
-<div class="hero-unit" style="z-index: 999;position:fixed; width:500px; float:right;right:0;top:50px;">
+<div class="hero-unit" style="background: #888888; z-index: 999;position:fixed; width:500px; float:right;right:0;top:50px;">
   <div class="col-lg-12" >
     <ul ng-show="funnelCtrl.tabItems.length">
       <li ng-repeat="tabItem in funnelCtrl.tabItems"><h3 style="text-align:left">{{tabItem.text}}<span style="float:right">{{tabItem.cost}}</span></h3></li>
@@ -9,11 +9,15 @@
     <ul ng-show="!funnelCtrl.tabItems.length">
       <li><h3>No Items selected</h3></li>
     </ul>
+    <button type="button" class="btn btn-primary"
+     style="float: left" title="click this button to go to checkout"
+      ng-click="funnelCtrl.goToCheckOut()"
+      ng-show="funnelCtrl.showTimes && funnelCtrl.showGuests" >Go Pay</button>
   </div>
 </div>
 
 <div class="container">
-    <h1 class="page-header">Features Funnelled:</h1>
+  <label>Pick a date</label>
   <div class="row">
     <div class="col-lg-12">
       <div style="display:inline-block; min-height:290px">
@@ -22,28 +26,31 @@
 
     </div>
   </div>
-  <div class="row">
+  <div class="row" ng-show="funnelCtrl.showTimes">
     <div class="col-lg-12">
       <label>Select a time slot</label>
       <ul>
-        <li ng-repeat="availableTime in funnelCtrl.availableTimes" ng-click="funnelCtrl.selectTime(availableTime)"><input type="radio" name="theTime">
+        <li ng-repeat="availableTime in funnelCtrl.availableTimes"
+         ng-click="funnelCtrl.selectTime(availableTime)"><input type="radio" name="theTime">
           <a href="#">{{availableTime.text}}</a>
         </li>
       </ul>
     </div>
   </div>
-  <div class="row">
+  <br />
+  <div class="row" ng-show="funnelCtrl.showGuests" >
     <div class="col-lg-12">
 
       <div ng-show="funnelCtrl.allKids" class="">
-        <label>Children</label>
+        <label>Number of child guests:</label><br />
         <input type="number" step="1" name="numberOfChildGuests" min="{{funnelCtrl.minKids}}"
         max="{{funnelCtrl.maxKids}}"
         title="There must be 1 adult to every 5 children" ng-model="funnelCtrl.numberOfChildGuests"
         step="1" ng-change="funnelCtrl.numberOfChildGuestsChanged($event)">
       </div>
+      <br />
       
-      <label>Adults</label>
+      <label>Number of adult guests:</label><br />
       <input type="number" step="1" min="{{funnelCtrl.minAdults}}" max="{{funnelCtrl.maxAdults}}" name="numberOfAdultGuests" ng-model="funnelCtrl.numberOfAdultGuests" ng-change="funnelCtrl.numberOfAdultGuestsChanged($event)">
       </div>
     </div>
